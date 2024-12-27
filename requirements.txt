@@ -1,1 +1,8 @@
 requests
+azure-storage-blob
+pandas
+python-dotenv
+numpy
+scikit-learn
+matplotlib
+seaborn
