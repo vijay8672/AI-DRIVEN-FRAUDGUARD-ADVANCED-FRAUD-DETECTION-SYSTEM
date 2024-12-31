@@ -3,9 +3,14 @@ azure-storage-blob
 pandas
 python-dotenv
 numpy
-scikit-learn
+scikit-learn==1.0.2
 matplotlib
 seaborn
 ipykernel
 missingno
 scipy
+imblearn
+mlflow
+xgboost
+lightgbm
+catboost

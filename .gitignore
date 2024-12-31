@@ -17,3 +17,8 @@ config/.env
 data/
 
 logs/
+
+catboost_info/
+
+artifacts/*.csv
+
