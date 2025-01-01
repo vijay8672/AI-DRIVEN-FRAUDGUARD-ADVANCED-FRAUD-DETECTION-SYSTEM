@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split, StratifiedKFold, cross_val_score
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 import lightgbm as lgb
 from catboost import CatBoostClassifier
@@ -38,10 +38,10 @@ def Model_Training():
     # Initialize models
     logger.info("Initializing base models...")
     models = [
-        (XGBClassifier(eval_metric='mlogloss'), "xgboost_model"),
-        (lgb.LGBMClassifier(), "lightgbm_model"),
-        (CatBoostClassifier(learning_rate=0.1, iterations=80, depth=6, verbose=0), "catboost_model"),
-        (SVC(kernel='linear', class_weight='balanced', probability=True, random_state=42), "svm_model")
+        (XGBClassifier(eval_metric='mlogloss', max_depth=4, n_estimators=50, learning_rate=0.2), "xgboost_model"),
+        (lgb.LGBMClassifier(max_depth=4, n_estimators=50, learning_rate=0.2, force_col_wise=True), "lightgbm_model"), 
+        (CatBoostClassifier(learning_rate=0.2, iterations=50, depth=4, verbose=0), "catboost_model"),
+        (LogisticRegression(solver='saga', max_iter=50), "logistic_model") 
     ]
 
     # Train and save each individual model

@@ -22,3 +22,7 @@ catboost_info/
 
 artifacts/*.csv
 
+mlruns/
+
+.vscode/
+
