@@ -1,0 +1,41 @@
+# Paths for various directories
+input_paths:
+  data_dir: 'artifacts/Important_features_data.csv'  # Path to dataset
+  model_save_dir: 'artifacts/models/'               # Directory to save trained models
+  log_dir: 'artifacts/logs/'                        # Directory for logs
+
+# Hyperparameters for models
+model_parameters:
+  xgboost:
+    eval_metric:'mlogloss'
+    max_depth: 4
+    n_estimators: 50
+    learning_rate: 0.2
+  lightgbm:
+    max_depth: 4
+    n_estimators: 50
+    learning_rate: 0.2
+    force_col_wise=True
+  catboost:
+    learning_rate: 0.2
+    iterations: 50
+    depth: 4
+    verbose=0
+  logistic_regression:
+    solver: 'saga'
+    max_iter: 50
+
+# Cross-validation settings
+cv_params:
+  n_splits: 3
+  shuffle: true
+  random_state: 42
+
+# SMOTE settings
+smote:
+  random_state: 42
+
+# MLflow tracking settings
+mlflow:
+  tracking_uri: 'http://localhost:5000'
+  experiment_name: 'fraud_detection_experiment'

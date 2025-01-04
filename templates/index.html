@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fraud Detection</h1>
+        <form action="/" method="post">
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" step="any" required>
+            
+            <label for="oldbalanceOrg">Previous Balance in Sender's account:</label>
+            <input type="number" name="oldbalanceOrg" step="any" required>
+            
+            <label for="oldbalanceDest">Previous Balance in Receiver's account:</label>
+            <input type="number" name="oldbalanceDest" step="any" required>
+            
+            <label for="step">Step:</label>
+            <input type="number" name="step" step="any" required>
+            
+            <label for="type_CASH_OUT">CASH_OUT (0 or 1):</label>
+            <input type="number" name="type_CASH_OUT" min="0" max="1" required>
+            
+            <label for="type_TRANSFER">TRANSFER (0 or 1):</label>
+            <input type="number" name="type_TRANSFER" min="0" max="1" required>
+            
+            <label for="type_PAYMENT">PAYMENT (0 or 1):</label>
+            <input type="number" name="type_PAYMENT" min="0" max="1" required>
+            
+            <label for="type_DEBIT">DEBIT (0 or 1):</label>
+            <input type="number" name="type_DEBIT" min="0" max="1" required>
+            
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <p>Prediction: <span style="color: {% if result == 'Fraud' %}red{% else %}green{% endif %};">{{ result }}</span></p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -55,3 +55,9 @@ def load_model(model_name, model_dir="artifacts/models/"):
     
     return model
 
+
+# Utility function to save artifacts
+def save_artifact(obj, path):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    joblib.dump(obj, path)
+    logger.info(f"Artifact saved at {path}")

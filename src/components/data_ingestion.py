@@ -38,12 +38,12 @@ class DataIngestion:
             data = pd.read_csv(download_stream)
             logger.info(f"Data loaded successfully. Shape: {data.shape}")
 
-            folder_path = 'dummy_data'
+            folder_path = 'data'
 
             if not os.path.exists(folder_path):
                 os.makedirs(folder_path)
 
-            local_file_path = os.path.join(folder_path, 'dump_data.csv')
+            local_file_path = os.path.join(folder_path, 'imported_data.csv')
             data.to_csv(local_file_path, index=False)
             logger.info(f"Data saved to {local_file_path} successfully.")
 

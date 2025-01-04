@@ -83,30 +83,7 @@ def encode_categorical_features(data: pd.DataFrame) -> pd.DataFrame:
 
 
 
-# Step 4: Apply log transformation for skewed features
-def transform_skewed_features(data: pd.DataFrame, columns: list, skew_threshold=(-0.5, 0.5)) -> pd.DataFrame:
-    logger.info("Transforming skewed features...")
-    log_transformer = lambda x: np.log1p(x)
-
-    transformed_data = data.copy()
-    for col in columns:
-        if col in transformed_data.columns:
-            skewness = transformed_data[col].skew()
-            logger.info(f"Skewness of column '{col}' before transformation: {skewness:.2f}")
-
-            if skewness < skew_threshold[0] or skewness > skew_threshold[1]:
-                transformed_data[col] = log_transformer(transformed_data[col])
-                new_skewness = transformed_data[col].skew()
-                logger.info(f"Skewness of column '{col}' after log transformation: {new_skewness:.2f}")
-            else:
-                logger.info(f"Column '{col}' is already within skewness threshold. Skipping transformation.")
-        else:
-            logger.warning(f"Column '{col}' not found in data. Skipping transformation.")
-
-    return transformed_data.copy()
-
-
-# Step 5: Remove highly correlated features
+# Step 4: Remove highly correlated features
 def remove_highly_correlated_features(data: pd.DataFrame, threshold: float = 0.87) -> pd.DataFrame:
     logger.info(f"Removing highly correlated features with correlation threshold: {threshold}...")
 
@@ -132,8 +109,7 @@ def feature_engineering(data: pd.DataFrame) -> pd.DataFrame:
     data_step_1 = handle_missing_values(data)
     data_step_2 = remove_duplicate_values(data_step_1)
     data_step_3 = encode_categorical_features(data_step_2)
-    data_step_4 = transform_skewed_features(data_step_3, columns=['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest'])
-    final_data = remove_highly_correlated_features(data_step_4)
+    final_data = remove_highly_correlated_features(data_step_3)
 
     return final_data.copy()
 
