@@ -5,142 +5,157 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from src.logging.logger import logger
+from src.utils.model_utils import save_artifact
+import joblib
 
 
-# Function to handle missing values
+# Step 1: Handle missing values
 def handle_missing_values(data: pd.DataFrame) -> pd.DataFrame:
     logger.info("Handling missing values...")
-
-    # Handle missing numerical values with median imputation
     numerical_columns = data.select_dtypes(include=[np.number]).columns
-    imputer = SimpleImputer(strategy="median")
-    data[numerical_columns] = imputer.fit_transform(data[numerical_columns])
-
-    # Handle missing categorical values with most frequent imputation
     categorical_columns = data.select_dtypes(include=['object']).columns
-    cat_imputer = SimpleImputer(strategy="most_frequent")
-    data[categorical_columns] = cat_imputer.fit_transform(data[categorical_columns])
 
-    logger.info("Missing values handled successfully.")
-    return data
+    if data.isnull().sum().sum() > 0:
+        logger.info("Imputing missing values...")
+        num_imputer = SimpleImputer(strategy="median")
+        cat_imputer = SimpleImputer(strategy="most_frequent")
+        data[numerical_columns] = num_imputer.fit_transform(data[numerical_columns])
+        data[categorical_columns] = cat_imputer.fit_transform(data[categorical_columns])
+    else:
+        logger.info("No missing values detected.")
+    return data.copy()
 
 
-# Function to remove duplicate rows
+# Step 2: Remove duplicate rows
 def remove_duplicate_values(data: pd.DataFrame) -> pd.DataFrame:
-    logger.info("Removing duplicate values...")
-    data = data.drop_duplicates()
-    logger.info("Duplicate values removed successfully.")
-    return data
+    logger.info("Removing duplicate rows...")
+    initial_shape = data.shape
+    if data.duplicated().sum() > 0:
+        data = data.drop_duplicates().reset_index(drop=True)
+        logger.info(f"Removed {initial_shape[0] - data.shape[0]} duplicate rows.")
+    else:
+        logger.info("No duplicate rows detected.")
+    return data.copy()
 
 
-# Function to encode categorical features using one-hot encoding
+# Step 3: Encode categorical features
 def encode_categorical_features(data: pd.DataFrame) -> pd.DataFrame:
     logger.info("Encoding categorical features...")
 
-    categorical_columns = data.select_dtypes(include=['object']).columns
+    # Select categorical and numerical columns
+    categorical_columns = data.select_dtypes(include=['object']).columns.tolist()
+    numerical_columns = data.select_dtypes(exclude=['object']).columns.tolist()
+
+    if not categorical_columns:
+        logger.info("No categorical columns detected. Skipping encoding.")
+        return data.copy()
+
+    logger.info(f"Categorical columns detected: {categorical_columns}. Starting encoding.")
+
+    # OneHotEncoder with drop_first to avoid dummy variable trap
     encoder = ColumnTransformer(
-        transformers=[('categorical', OneHotEncoder(drop='first', sparse_output=False), categorical_columns)], 
+        transformers=[('categorical', OneHotEncoder(drop='first', sparse_output=False), categorical_columns)],
         remainder='passthrough'
     )
-    data_encoded = encoder.fit_transform(data)
 
-    # Get new column names after encoding
+    # Fit and transform the data
+    encoded_data = encoder.fit_transform(data)
+    save_artifact(encoder, 'artifacts/model_artifacts/encoder.pkl')
+
+    # Retrieve the new column names in the correct order
     encoded_columns = encoder.transformers_[0][1].get_feature_names_out(categorical_columns)
-    all_columns = list(encoded_columns) + list(data.select_dtypes(exclude=['object']).columns)
+    all_columns = encoded_columns.tolist() + numerical_columns
 
-    # Convert the encoded data back to a DataFrame with appropriate column names
-    data_encoded_df = pd.DataFrame(data_encoded, columns=all_columns)
+    # Create DataFrame with proper column names and order
+    preprocessed_data = pd.DataFrame(encoded_data, columns=all_columns)
 
-    logger.info("Categorical features encoded successfully.")
-    return data_encoded_df
+    # Ensure numerical columns retain their original data type
+    for col in numerical_columns:
+        if col in data.columns:
+            preprocessed_data[col] = preprocessed_data[col].astype(data[col].dtype)
+        else:
+            logger.warning(f"Numerical column {col} not found in original data.")
+
+    logger.info(f"Preprocessed data has {preprocessed_data.shape[1]} columns after encoding.")
+    logger.info(f"Preprocessed data columns: {list(preprocessed_data.columns)}")
+
+    return preprocessed_data
 
 
-# Function to remove highly correlated features
-def remove_highly_correlated_features(data: pd.DataFrame, threshold: float = 0.9) -> pd.DataFrame:
+
+# Step 4: Apply log transformation for skewed features
+def transform_skewed_features(data: pd.DataFrame, columns: list, skew_threshold=(-0.5, 0.5)) -> pd.DataFrame:
+    logger.info("Transforming skewed features...")
+    log_transformer = lambda x: np.log1p(x)
+
+    transformed_data = data.copy()
+    for col in columns:
+        if col in transformed_data.columns:
+            skewness = transformed_data[col].skew()
+            logger.info(f"Skewness of column '{col}' before transformation: {skewness:.2f}")
+
+            if skewness < skew_threshold[0] or skewness > skew_threshold[1]:
+                transformed_data[col] = log_transformer(transformed_data[col])
+                new_skewness = transformed_data[col].skew()
+                logger.info(f"Skewness of column '{col}' after log transformation: {new_skewness:.2f}")
+            else:
+                logger.info(f"Column '{col}' is already within skewness threshold. Skipping transformation.")
+        else:
+            logger.warning(f"Column '{col}' not found in data. Skipping transformation.")
+
+    return transformed_data.copy()
+
+
+# Step 5: Remove highly correlated features
+def remove_highly_correlated_features(data: pd.DataFrame, threshold: float = 0.87) -> pd.DataFrame:
     logger.info(f"Removing highly correlated features with correlation threshold: {threshold}...")
 
-    # Compute the correlation matrix for numerical features
     corr_matrix = data.corr(numeric_only=True).abs()
-
-    # Identify the upper triangle of the correlation matrix to avoid redundant comparisons
     upper_triangle = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
 
-    to_drop = []
+    to_drop = [column for column in upper_triangle.columns if any(upper_triangle[column] > threshold)]
 
-    # Iterate through the upper triangle to find correlated features
-    for column in upper_triangle.columns:
-        # Find features that have correlation higher than the threshold
-        correlated_features = upper_triangle[column][upper_triangle[column] > threshold].index
-        for feature in correlated_features:
-            # Add one of the correlated features to the list to drop (either column or feature)
-            if column not in to_drop:
-                to_drop.append(column)
+    if to_drop:
+        logger.info(f"Features to be removed due to high correlation: {to_drop}")
+        data = data.drop(columns=to_drop)
+    else:
+        logger.info("No highly correlated features found.")
 
-    # Remove duplicates from the list of features to drop
-    to_drop = list(set(to_drop))
-
-    logger.info(f"Features to be removed due to high correlation: {to_drop}")
-
-    # Drop the identified highly correlated features
-    data = data.drop(columns=to_drop)
-
-    logger.info("Highly correlated features removed successfully.")
-
-    return data
+    return data.copy()
 
 
-# Function to perform feature engineering
-def feature_engineering(data: pd.DataFrame, original_columns: list) -> pd.DataFrame:
+# Main Feature Engineering Pipeline
+def feature_engineering(data: pd.DataFrame) -> pd.DataFrame:
     logger.info("Starting feature engineering pipeline...")
 
-    # Perform missing value handling, duplicate removal, encoding, and correlation removal
-    data = handle_missing_values(data)
-    data = remove_duplicate_values(data)
-    data = encode_categorical_features(data)
-    data = remove_highly_correlated_features(data)
+    # Step-by-step transformation ensuring data integrity
+    data_step_1 = handle_missing_values(data)
+    data_step_2 = remove_duplicate_values(data_step_1)
+    data_step_3 = encode_categorical_features(data_step_2)
+    data_step_4 = transform_skewed_features(data_step_3, columns=['amount', 'oldbalanceOrg', 'newbalanceOrig', 'oldbalanceDest', 'newbalanceDest'])
+    final_data = remove_highly_correlated_features(data_step_4)
 
-    # Update original_columns after modifications
-    updated_columns = [col for col in original_columns if col not in ['isFraud', 'nameOrig', 'nameDest', 'isFlaggedFraud']]
-
-    logger.info("Feature engineering completed successfully.")
-    return data, updated_columns
+    return final_data.copy()
 
 
-# Main execution
+# Entry point for script execution
 if __name__ == "__main__":
-    file_path = 'data/Imported_data.csv'  # Path to your dataset
-    output_path = 'data/preprocessed_data.csv'  # Path for saving preprocessed data
+    input_path = 'data/Imported_data.csv'
+    output_path = 'data/preprocessed_data.csv'
 
-    # Load the dataset
-    data = pd.read_csv(file_path)
-    
-    # Separate target column and original column names
-    target = data['isFraud']
-    original_columns = data.columns.tolist()
-    
-    # Drop irrelevant columns and prepare the data
-    data = data.drop(columns=['isFraud', 'nameOrig', 'nameDest', 'isFlaggedFraud'])
+    data = pd.read_csv(input_path)
 
-    # Ensure there are no NaN values in data or target before proceeding
-    if data.isnull().any().any():
-        logger.error("Data contains NaN values after preprocessing! ")
-        # Handle NaN values as needed (e.g., retry imputation)
-    
-    if target.isnull().any():
-        logger.error("Target contains NaN values! ")
-        # Handle NaN values in target as needed
+    # Separate target and drop unnecessary columns
+    target = data.pop('isFraud')
+    data = data.drop(columns=['step', 'nameOrig', 'nameDest', 'isFlaggedFraud'])
 
-    # Perform feature engineering
-    processed_data, updated_columns = feature_engineering(data, original_columns)
+    # Apply feature engineering pipeline
+    processed_data = feature_engineering(data)
 
-    # Add the target column back to the processed data
-    processed_data['isFraud'] = target
+    # Add target back to the processed data
+    processed_data['isFraud'] = target.reset_index(drop=True)
 
-    # Save the cleaned data to the specified output path
-    if os.path.exists(output_path):
-        logger.info(f"{output_path} exists. Replacing the file...")
-        os.remove(output_path)  # Remove the existing file
-
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)  # Create directory if not exists
-    processed_data.to_csv(output_path, index=False, header=True)
-    logger.info("Preprocessed data saved successfully.")
+    # Save the preprocessed data
+    processed_data.to_csv(output_path, index=False)
+    logger.info(f"Preprocessed data saved at {output_path}")
+    logger.info("Feature Engineering pipeline completed successfully.")
