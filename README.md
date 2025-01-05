@@ -64,7 +64,13 @@ The dataset used in this project is synthetic and generated using the PaySim sim
 
 ## Data Ingestion
 
-In this step, the dataset was loaded into the system, and initial checks for missing values, incorrect data types, and anomalies were performed.
+In this step:  
+- The dataset was first **downloaded** from **Kaggle**.  
+- It was then **uploaded** to **Azure Blob Storage** for secure storage and accessibility.  
+- The data was **read** from Blob Storage and **ingested** into the **local project folder** in **CSV format**.  
+
+This **CSV file** served as the basis for further **analysis** and **processing**.  
+
 
 ---
 
