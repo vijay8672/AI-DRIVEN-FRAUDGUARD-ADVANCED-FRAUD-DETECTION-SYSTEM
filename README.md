@@ -14,8 +14,8 @@ Welcome to the **Fraud Detection Using Machine Learning** project! This reposito
 4. [Data Ingestion](#data-ingestion)
 5. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
 6. [Feature Engineering](#feature-engineering)
-7. [Model Building](#model-building)
-8. [Evaluation Metrics](#evaluation-metrics)
+7. [Model Training](#model-training)
+8. [Model Evaluation](#model-evaluation)
 9. [Deployment](#deployment)
 10. [Conclusion](#conclusion)
 
