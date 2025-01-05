@@ -14,10 +14,11 @@ Welcome to the **Fraud Detection Using Machine Learning** project! This reposito
 4. [Data Ingestion](#data-ingestion)
 5. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
 6. [Feature Engineering](#feature-engineering)
-7. [Model Training](#model-training)
-8. [Model Evaluation](#model-evaluation)
-9. [Deployment](#deployment)
-10. [Conclusion](#conclusion)
+7. [Feature Selection](#feature-selection)
+8. [Model Training](#model-training)
+9. [Model Evaluation](#model-evaluation)
+10. [Deployment](#deployment)
+11. [Conclusion](#conclusion)
 
 ---
 
@@ -136,8 +137,8 @@ The **model training** process involves defining independent and dependent varia
    - **SMOTE (Synthetic Minority Oversampling Technique)** is applied to oversample the minority class (fraudulent transactions) in the training data to address the class imbalance.
 
 4. **Feature Scaling**
-   - The features are scaled using **StandardScaler** to ensure all features contribute equally to model performance.
-
+   - The features are scaled using StandardScaler to ensure that all features contribute equally to the model's performance. The scaler is then saved in .pkl format for future use.
+     
 5. **Model Initialization**
    - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance in classification tasks.
 
@@ -153,8 +154,54 @@ The trained models are saved in the `artifacts/models/` directory for future use
 
 ## Model Evaluation
 
-Evaluation was based on precision, recall, F1-score, and the confusion matrix to measure the model's performance on imbalanced data effectively.
+The performance of the models was evaluated using a variety of metrics, including accuracy, precision, recall, F1-score, and ROC-AUC. These metrics were chosen to assess the models' ability to classify both the majority (non-fraud) and minority (fraud) classes, especially considering the class imbalance in the dataset.
 
+Accuracy measures the proportion of correct predictions (both true positives and true negatives) among all predictions. However, in the case of imbalanced datasets, accuracy can be misleading because a model that predicts only the majority class can still achieve high accuracy without being useful for identifying the minority class.
+
+Precision is crucial for understanding the quality of the positive predictions made by the model. It tells us how many of the predicted fraudulent transactions were actually fraudulent. A high precision indicates that the model is making fewer false positive errors (i.e., predicting non-fraudulent transactions as fraudulent).
+
+Recall is particularly important when dealing with imbalanced datasets because it measures how many of the actual fraudulent transactions were correctly identified. A high recall indicates that the model is good at detecting fraudulent transactions, even though it may make some false positive errors.
+
+F1-Score is the harmonic mean of precision and recall and provides a balanced measure of model performance, particularly when dealing with imbalanced classes. A higher F1-score indicates a better balance between precision and recall.
+
+ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a metric used to evaluate how well the model distinguishes between the classes. It considers both true positive rate (recall) and false positive rate, with values closer to 1 indicating better performance and values close to 0.5 indicating random guessing.
+
+Evaluation Results
+Below are the evaluation results for each model:
+
+AdaBoost Model:
+
+Accuracy: 89.8%
+F1-Score: 0.0026
+Precision: 0.0013
+Recall: 12.2%
+ROC-AUC: 0.503
+CatBoost Model:
+
+Accuracy: 77.6%
+F1-Score: 0.0023
+Precision: 0.0012
+Recall: 24.4%
+ROC-AUC: 0.509
+LightGBM Model:
+
+Accuracy: 78.6%
+F1-Score: 0.0023
+Precision: 0.0012
+Recall: 23.3%
+ROC-AUC: 0.505
+XGBoost Model:
+
+Accuracy: 78.6%
+F1-Score: 0.0023
+Precision: 0.0011
+Recall: 22.5%
+ROC-AUC: 0.504
+
+- Analysis
+Class Imbalance: Given that the dataset is likely imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are facing challenges in accurately predicting the minority class (fraud). This is reflected in the low precision, recall, and F1-scores for the fraudulent class across all models.
+
+Model Discrimination: The ROC-AUC scores for all models are close to 0.5, which suggests that these models are struggling to distinguish between fraudulent and non-fraudulent transactions. A value of 0.5 indicates that the model's performance is similar to random guessing.
 ---
 
 ## Deployment
