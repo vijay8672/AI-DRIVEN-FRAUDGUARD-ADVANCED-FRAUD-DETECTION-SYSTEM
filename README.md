@@ -42,7 +42,7 @@ To build a machine learning model capable of detecting fraudulent transactions w
 
 The dataset used in this project is synthetic and generated using the PaySim simulator. It mimics mobile money transactions and includes both normal and fraudulent behaviors to evaluate fraud detection methods.
 
-![image](https://github.com/user-attachments/assets/e9b1f426-68f0-485c-8417-87eece4169a3) Dataset Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
+ Dataset Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
 
 ### Features Overview
 
