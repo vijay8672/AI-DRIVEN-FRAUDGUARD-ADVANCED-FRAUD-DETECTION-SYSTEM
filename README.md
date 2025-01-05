@@ -36,13 +36,13 @@ To build a machine learning model capable of detecting fraudulent transactions w
 
 ---
 
-## Dataset 📂 Description
+## Dataset Description
 
 ### Context
 
 The dataset used in this project is synthetic and generated using the PaySim simulator. It mimics mobile money transactions and includes both normal and fraudulent behaviors to evaluate fraud detection methods.
 
- Dataset Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
+ Dataset 📂 Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
 
 ### Features Overview
 
@@ -71,7 +71,6 @@ In this step:
 
 This **CSV file** served as the basis for further **analysis** and **processing**.  
 
-
 ---
 
 ## Exploratory Data Analysis (EDA)
@@ -82,17 +81,77 @@ EDA was conducted to understand the distribution of transactions, the balance be
 
 ## Feature Engineering
 
-Features such as `balanceDifference` and `transactionFrequency` were created to improve the model's ability to detect fraud effectively.
+Feature engineering is a critical step in building a machine learning model, as it involves the creation of new features or the transformation of existing features to enhance model performance. Below are the steps performed in feature engineering for this project:
+
+1. **Handling Missing Values**  
+   - **Imputation** was applied to handle any missing values. The missing values were imputed using appropriate strategies such as **mean**, **median**, or **mode** depending on the feature type. However, in this dataset, there were **no missing (NaN) values** found, so this step was not required.
+
+2. **Removing Duplicate Values**  
+   - Duplicate rows were identified and **removed** to ensure data integrity. A total of approximately **90,000 duplicate rows** were found and removed from the dataset to ensure the uniqueness of the data and avoid bias in the analysis.
+
+3. **Outlier Detection**  
+   - **Outliers** in numerical features were identified and handled using methods like **Z-score** and **IQR (Interquartile Range)**. These methods help to detect values that deviate significantly from the mean, preventing them from skewing the model’s results.
+
+4. **Encoding Categorical Variables**  
+   - Categorical features were **encoded** using techniques like **one-hot encoding** to convert categorical variables into numerical values that can be used by machine learning algorithms. Additionally, the **first variable** in each categorical column was dropped to avoid the **dummy variable trap**, which can lead to multicollinearity.
+
+5. **Feature Transformation**  
+   - To ensure that numerical features are on the same scale and to improve model performance, **log transformation** was applied to certain numerical features. This transformation helps in handling skewed distributions and makes the features more suitable for machine learning models.
+
+6. **Removing Highly Correlated Features**  
+   - Features that were highly **correlated** with one another were removed to prevent multicollinearity. This step ensures that the model remains efficient by eliminating redundant features that do not add significant value to the model’s predictive power.
+
+These transformations help make the data more suitable for training and improve the performance of the fraud detection model.
+---
+
+## **Feature Selection**
+
+Feature selection is a crucial step in improving the model's performance and efficiency by identifying the most important features and eliminating the irrelevant or redundant ones. Below are the steps performed in the feature selection process:
+
+1. **Removal of Irrelevant Features**  
+   - **Irrelevant features** that do not contribute meaningfully to the prediction or analysis were **removed**. These features had little to no relationship with the target variable, and retaining them could lead to unnecessary complexity in the model.
+
+2. **Correlation Analysis**  
+   - **Correlation analysis** was applied to identify features that were highly correlated with each other. Highly correlated features are often redundant, meaning that they provide similar information. Removing these features prevents **multicollinearity**, which can lead to overfitting and inaccurate model predictions.
+   - Features with a correlation coefficient above a specified threshold (typically **0.9**) were removed to avoid redundancy and improve model generalization.
+
+3. **SelectKBest with f_classif**  
+   - **SelectKBest** was used with the **f_classif** test to evaluate the significance of each feature in predicting the target variable. The top **K** most significant features were selected based on their **ANOVA F-values**, ensuring that only the most important features were retained.
+
+By performing these steps, we ensured that the dataset was optimized for building the model, with only the most relevant features retained for analysis and prediction.
 
 ---
 
-## Model Building
+## **Model Training**
 
-Several machine learning models, including Logistic Regression, Random Forest, and XGBoost, were tested. XGBoost was found to perform the best with an accuracy of 98%.
+The **model training** process involves defining independent and dependent variables, splitting the dataset, handling class imbalance, scaling features, and training multiple machine learning models. Below are the key steps involved:
+
+1. **Loading the Dataset**
+   - The preprocessed dataset is loaded into the system from a specified path and separated into independent variables (`X`) and target variable (`y`).
+
+2. **Splitting the Data**
+   - The dataset is split into **training** and **testing** sets, using a **stratified split** to ensure consistent distribution of the target variable across both sets.
+
+3. **Handling Class Imbalance**
+   - **SMOTE (Synthetic Minority Oversampling Technique)** is applied to oversample the minority class (fraudulent transactions) in the training data to address the class imbalance.
+
+4. **Feature Scaling**
+   - The features are scaled using **StandardScaler** to ensure all features contribute equally to model performance.
+
+5. **Model Initialization**
+   - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance in classification tasks.
+
+6. **Training and Saving Models**
+   - Each model is trained using the scaled training data, and after training, the models are saved for future use.
+
+### **Model Performance**
+- Several models were tested, and **AdaBoost** was found to perform the best with an accuracy of **89%**. This model is selected as the final model for deployment.
+
+The trained models are saved in the `artifacts/models/` directory for future use.
 
 ---
 
-## Evaluation Metrics
+## Model Evaluation
 
 Evaluation was based on precision, recall, F1-score, and the confusion matrix to measure the model's performance on imbalanced data effectively.
 
