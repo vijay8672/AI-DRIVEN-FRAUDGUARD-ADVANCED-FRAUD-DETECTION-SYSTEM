@@ -12,7 +12,7 @@ Welcome to the **Fraud Detection Using Machine Learning** project! This reposito
 
 ## Table of Contents  
 
-1. [Introduction](#introduction)  
+1. [Introduction](#Introduction)  
 2. [Problem Statement](#problem-statement)  
 3. [Dataset Description](#dataset-description)  
    - [Context](#context)  
