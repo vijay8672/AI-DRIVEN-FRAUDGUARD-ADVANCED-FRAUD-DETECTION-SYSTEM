@@ -23,13 +23,16 @@ Welcome to the **Fraud Detection Using Machine Learning** project! This reposito
 
 ## Introduction
 
-Fraud detection is a critical issue in the financial industry, where fraudulent transactions can lead to significant financial losses. This project leverages machine learning to identify and flag suspicious transactions in a dataset inspired by real-world scenarios.
+Fraud detection is a critical challenge faced by financial institutions, e-commerce platforms, and other industries. The Fraud Detect AI project presents an end-to-end machine learning solution to detect fraudulent activities in real-time with high accuracy. This project adheres to industry standards and showcases a robust pipeline, from data ingestion to deployment.
 
 ---
 
 ## Problem Statement
 
-The goal of this project is to develop a machine learning model capable of detecting fraudulent financial transactions. The key challenge is to minimize false positives and negatives while identifying fraud accurately in a dataset with imbalanced classes.
+Fraudulent activities, such as unauthorized transactions and identity theft, cause significant financial losses and damage to brand reputation. Identifying fraud accurately and swiftly is essential to mitigate risks. The challenge lies in distinguishing between genuine and fraudulent activities in a massive dataset with an imbalance between fraudulent and non-fraudulent records.
+
+Objective:
+To build a machine learning model capable of detecting fraudulent transactions with high precision and recall while ensuring scalability and real-time inference capabilities.
 
 ---
 
@@ -38,6 +41,8 @@ The goal of this project is to develop a machine learning model capable of detec
 ### Context
 
 The dataset used in this project is synthetic and generated using the PaySim simulator. It mimics mobile money transactions and includes both normal and fraudulent behaviors to evaluate fraud detection methods.
+
+![image](https://github.com/user-attachments/assets/e9b1f426-68f0-485c-8417-87eece4169a3) Dataset Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
 
 ### Features Overview
 
