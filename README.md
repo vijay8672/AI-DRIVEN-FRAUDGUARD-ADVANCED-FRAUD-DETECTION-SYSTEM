@@ -1,6 +1,6 @@
 # Fraud Detect AI - Fraud Detection Model Created Using Machine Learning
 
-Welcome to the **Fraud Detection Using Machine Learning** project! This repository showcases an end-to-end machine learning pipeline to detect fraudulent transactions in financial datasets.
+Welcome to the **Fraud Detection Machine Learning** project! This repository showcases an end-to-end machine learning pipeline to detect fraudulent transactions in financial datasets.
 
 ---
 
