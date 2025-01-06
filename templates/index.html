@@ -65,30 +65,24 @@
     <div class="container">
         <h1>Fraud Detection</h1>
         <form action="/" method="post">
-            <label for="amount">Amount:</label>
-            <input type="number" name="amount" step="any" required>
-            
-            <label for="oldbalanceOrg">Previous Balance in Sender's account:</label>
-            <input type="number" name="oldbalanceOrg" step="any" required>
-            
-            <label for="oldbalanceDest">Previous Balance in Receiver's account:</label>
-            <input type="number" name="oldbalanceDest" step="any" required>
-            
-            <label for="step">Step:</label>
-            <input type="number" name="step" step="any" required>
-            
             <label for="type_CASH_OUT">CASH_OUT (0 or 1):</label>
-            <input type="number" name="type_CASH_OUT" min="0" max="1" required>
-            
-            <label for="type_TRANSFER">TRANSFER (0 or 1):</label>
-            <input type="number" name="type_TRANSFER" min="0" max="1" required>
-            
+            <input type="number" name="type_CASH_OUT" min="0" max="1" value="{{ request.form.type_CASH_OUT or '' }}" required>
+
             <label for="type_PAYMENT">PAYMENT (0 or 1):</label>
-            <input type="number" name="type_PAYMENT" min="0" max="1" required>
-            
-            <label for="type_DEBIT">DEBIT (0 or 1):</label>
-            <input type="number" name="type_DEBIT" min="0" max="1" required>
-            
+            <input type="number" name="type_PAYMENT" min="0" max="1" value="{{ request.form.type_PAYMENT or '' }}" required>
+
+            <label for="type_TRANSFER">TRANSFER (0 or 1):</label>
+            <input type="number" name="type_TRANSFER" min="0" max="1" value="{{ request.form.type_TRANSFER or '' }}" required>
+
+            <label for="amount">Amount:</label>
+            <input type="number" name="amount" step="any" value="{{ request.form.amount or '' }}" required>
+
+            <label for="oldbalanceOrg">Previous Balance (Sender):</label>
+            <input type="number" name="oldbalanceOrg" step="any" value="{{ request.form.oldbalanceOrg or '' }}" required>
+
+            <label for="oldbalanceDest">Previous Balance (Receiver):</label>
+            <input type="number" name="oldbalanceDest" step="any" value="{{ request.form.oldbalanceDest or '' }}" required>
+
             <button type="submit">Predict</button>
         </form>
 
