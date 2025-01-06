@@ -202,14 +202,14 @@ Recall: 22.5%
 ROC-AUC: 0.504
 
 - Analysis
-Class Imbalance: Given that the dataset is likely imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are facing challenges in accurately predicting the minority class (fraud). This is reflected in the low precision, recall, and F1-scores for the fraudulent class across all models.
+Class Imbalance: Given that the dataset is imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are facing challenges in accurately predicting the minority class (fraud). This is reflected in the low precision, recall, and F1-scores for the fraudulent class across all models.
 
-Model Discrimination: The ROC-AUC scores for all models are close to 0.5, which suggests that these models are struggling to distinguish between fraudulent and non-fraudulent transactions. A value of 0.5 indicates that the model's performance is similar to random guessing.
 ---
 
 ## Deployment
 
 The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.
+Link: https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/
 
 ---
 
