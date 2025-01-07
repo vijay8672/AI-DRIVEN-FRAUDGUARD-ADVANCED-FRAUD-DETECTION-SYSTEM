@@ -210,7 +210,7 @@ Evaluation Results:
 The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.  
 **Link**: [Fraud Detect AI App](https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/)
 
-![image](https://github.com/user-attachments/assets/5855b2d7-781b-43cb-bf5c-0ee81cd00b77)
+![image](https://github.com/user-attachments/assets/e7bae4f7-dbbd-4bb9-a1dd-71c484b738ee)
 
 ---
 
