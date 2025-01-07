@@ -200,7 +200,7 @@ Model evaluation involves assessing the performance of each trained model using 
   - Enabled easy comparison and reproducibility of models.
   - Ensured transparency in the model’s training process.
   - Allowed monitoring of how hyperparameters impacted the model's performance.
-
+![image](https://github.com/user-attachments/assets/cf36a353-2d70-491f-8449-0d70474995a2)
 
 ---
 
