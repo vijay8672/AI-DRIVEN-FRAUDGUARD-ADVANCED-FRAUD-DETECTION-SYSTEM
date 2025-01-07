@@ -17,7 +17,7 @@ Welcome to the **Fraud Detection Machine Learning** project! This repository sho
 7. [Feature Selection](#feature-selection)
 8. [Model Training](#model-training)
 9. [Model Evaluation](#model-evaluation)
-10. [Model Tracking with MLflow](#Model-Tracking-with-mlflow)
+10. [Model Tracking with MLflow](#model-tracking-with-mlflow)
 11. [Deployment](#deployment)
 12. [Conclusion](#conclusion)
 
@@ -45,6 +45,7 @@ This project utilizes a variety of tools and technologies to achieve its objecti
     - **Azure Blob Storage**: For storing datasets.
 - **Data Ingestion & Storage**: Kaggle, Azure Blob Storage.
 - **Version Control**: Git, GitHub.
+- **Containerization**: Docker (to package the application and deploy it on Azure Web Apps).
 
 ---
 
@@ -159,76 +160,88 @@ The **model training** process involves defining independent and dependent varia
 
 4. **Feature Scaling**
    - Feature scaling was not performed in this project because we used boosting models such as XGBoost, LightGBM, CatBoost, and AdaBoost. These models are based on decision trees, which are inherently insensitive to the scale of the features. Decision trees work by splitting data based on feature values and do not rely on the distance between data points, making feature scaling unnecessary for tree-based models.
-     
+
 5. **Model Initialization**
-   - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance in classification tasks.
-  
-6. **Cross-Validation**
-   - Stratified K-Fold Cross-Validation is applied during the model training process to ensure the model's performance is robust and not overfitting to a particular subset of the training data. This technique helps in assessing the model’s generalization ability by splitting the training data into several smaller folds and training the model on different folds, then averaging the results.
-Training and Saving Models
-
-7. **Training and Saving Models**
-   - Each model is trained using the data, and after training, the models are saved for future use.
-
-### Model Performance
-- Several models were tested, and **CatBoost** was found to perform the best with an accuracy of **89%**. This model is selected as the final model for deployment.
-
-The trained models are saved in the `artifacts/models/` directory for future use.
-
----
-
-### Hyperparameter Tuning
-
-To optimize model performance, **hyperparameter tuning** was performed on the best-performing models using **RandomizedSearchCV**. These technique allow for searching the best combination of hyperparameters that give the highest model accuracy.
-
-**RandomizedSearchCV**
-   - RandomizedSearchCV was used for models like **AdaBoost** and **LightGBM**, as it searches a randomly selected subset of hyperparameters, which can be more efficient than GridSearchCV for larger datasets.
-   - RandomizedSearchCV was applied with a set of hyperparameters, such as:
-     - **CatBoost Hyperparameters**:
-     - `iterations`: The number of boosting iterations (trees) to train the model. More iterations usually improve performance, but too many can lead to overfitting.
-     - `depth`: The depth of the trees. A larger depth allows the model to capture more complex patterns, but it can also lead to overfitting if set too high.
-     - `learning_rate`: The step size at each iteration. A smaller learning rate improves the model's ability to learn slowly and generalize better, but it requires more iterations.
-     - `l2_leaf_reg`: The regularization term for leaf values to avoid overfitting.
-     - `subsample`: The fraction of samples used to train each tree. Lower values can help reduce overfitting by introducing randomness.
-     - `cat_features`: List of categorical features, as CatBoost can handle categorical data natively.
-   
-After performing **hyperparameter tuning**, the models with the best parameters were selected for final training. The model performance significantly improved with the chosen hyperparameters, leading to higher accuracy and better classification results.
+   - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance on structured/tabular data.
 
 ---
 
 ## Model Evaluation
 
-The performance of the models was evaluated using a variety of metrics, including accuracy, precision, recall, F1-score, and ROC-AUC. These metrics were chosen to assess the models' ability to classify both the majority (non-fraud) and minority (fraud) classes, especially considering the class imbalance in the dataset.
+Model evaluation involves assessing the performance of each trained model using key metrics. We use several metrics to evaluate classification models:
 
-Evaluation Results:
-- **CatBoost Model**: 
-   - Accuracy: 89%
-   - Precision: 0.90
-   - Recall: 0.88
-   - F1-Score: 0.89
-   - ROC-AUC: 0.92
+- **Accuracy**: The proportion of correct predictions (both true positives and true negatives) out of all predictions.
+- **Precision**: The proportion of true positives out of all predicted positives. Precision is important when false positives have a significant impact.
+- **Recall**: The proportion of true positives out of all actual positives. Recall is important when false negatives are costly (i.e., missing fraud cases).
+- **F1-Score**: The harmonic mean of precision and recall. This metric is particularly useful when the class distribution is imbalanced.
+- **AUC-ROC**: The area under the ROC curve, which measures the ability of the model to distinguish between positive and negative classes.
 
 ---
 
 ## Model Tracking with MLflow
-The integration of MLflow allows for efficient tracking and versioning of models. Below are the key aspects of MLflow integration:
 
-   - **Logging Metrics**: MLflow logs key performance metrics such as accuracy, precision, recall, and F1-score for each model run.
-   - **Logging Parameters**: Hyperparameters (e.g., learning rate, number of iterations, depth) of each model are logged for comparison across different runs.
-   - **Logging Models**: The trained model is logged as an artifact in MLflow, allowing easy access for future deployment or analysis.
-   - **Experiment Tracking**: MLflow provides a centralized view of all model training runs, enabling better experimentation, comparisons, and model selection.
+**MLflow** was used for tracking the performance of the trained models and managing the model lifecycle. Each model training run, hyperparameter setting, and evaluation metric were logged into MLflow for easy comparison and reproducibility. By using MLflow, we ensured that the model’s training process was transparent, and we could track the impact of hyperparameters on performance.
 
+---
+
+## Docker Usage
+
+In this project, Docker was used to containerize the Flask application for deployment. Below are the steps to use Docker for this project:
+
+Here is a combined list of the process followed along with the commands used:
+
+### Process and Commands:
+
+1. **Create a `Dockerfile`**:  
+   Define the steps to build the Docker image, including the base image and necessary dependencies.
+
+2. **Create a `requirements.txt`**:  
+   List all the Python dependencies needed for the project (e.g., Flask, scikit-learn).
+
+3. **Build the Docker image**:  
+   Run the following command to build the image based on the `Dockerfile`:
+   ```bash
+   docker build -t fraud-detect-ai .
+   ```
+
+4. **Run the Docker container**:  
+   After building the image, run the application in a container using this command:
+   ```bash
+   docker run -p 5000:5000 fraud-detect-ai
+   ```
+
+5. **Access the application**:  
+   Open your web browser and go to `http://localhost:5000` to interact with the app.
+
+6. **Push the Docker image to Docker Hub**:  
+   If you want to share or deploy the image, you can log in to Docker Hub, tag the image, and push it.
+   
+   - **Login to Docker Hub**:
+     ```bash
+     docker login
+     ```
+
+   - **Tag the image for Docker Hub**:
+     ```bash
+     docker tag fraud-detect-ai vijaykodam98/fraud-detect-ai
+     ```
+
+   - **Push the image to Docker Hub**:
+     ```bash
+     docker push vijaykodam98/fraud-detect-ai
+     ```
+
+This combines the steps and commands in a simplified workflow for using Docker in your project!
 ---
 
 ## Deployment
 
-The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.  
-**Link**: [Fraud Detect AI App](https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/)
-
-![image](https://github.com/user-attachments/assets/e7bae4f7-dbbd-4bb9-a1dd-71c484b738ee)
+The trained model is deployed using **Flask**, with a REST API that can accept new transaction data and return predictions (fraudulent or not). The Flask app is containerized using **Docker** to ensure portability and ease of deployment. Finally, the model is deployed on **Azure Web Services**, allowing real-time predictions from users globally.
 
 ---
 
 ## Conclusion
 
-This project demonstrates the potential of machine learning in detecting fraudulent transactions, highlighting the importance of robust data preprocessing and feature engineering in building effective fraud detection systems.
+This project successfully built an end-to-end fraud detection system capable of identifying fraudulent transactions with high accuracy and recall. By leveraging robust machine learning techniques, efficient data preprocessing, and model management tools like MLflow, this system can be integrated into real-time applications for fraud detection in the finance sector.
+
+---
