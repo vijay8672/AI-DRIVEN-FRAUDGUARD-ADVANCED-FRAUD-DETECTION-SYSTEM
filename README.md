@@ -28,6 +28,25 @@ Fraud detection is a critical challenge faced by financial institutions, e-comme
 
 ---
 
+## Tools and Technologies
+
+This project utilizes a variety of tools and technologies to achieve its objectives in fraud detection:
+
+* **Programming Languages**: Python
+* **Libraries/Frameworks**:
+    * **Scikit-learn**: For machine learning models and preprocessing.
+    * **XGBoost, LightGBM, CatBoost, AdaBoost**: For training various models.
+    * **Flask**: For deploying the model as a web application.
+    * **Azure Web Services**: For hosting the application.
+    * **Pandas, Numpy**: For data manipulation and preprocessing.
+    * **Matplotlib, Seaborn**: For data visualization.
+* **Cloud**:
+    * **Azure Blob Storage**: For storing datasets.
+* **Data Ingestion & Storage**: Kaggle, Azure Blob Storage.
+* **Version Control**: Git, GitHub.
+
+---
+
 ## Problem Statement
 
 Fraudulent activities, such as unauthorized transactions and identity theft, cause significant financial losses and damage to brand reputation. Identifying fraud accurately and swiftly is essential to mitigate risks. The challenge lies in distinguishing between genuine and fraudulent activities in a massive dataset with an imbalance between fraudulent and non-fraudulent records.
@@ -169,40 +188,16 @@ ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a metric u
 Evaluation Results
 Below are the evaluation results for each model:
 
-AdaBoost Model:
-
-Accuracy: 89.8%
-F1-Score: 0.0026
-Precision: 0.0013
-Recall: 12.2%
-ROC-AUC: 0.503
-
 CatBoost Model:
 
-Accuracy: 77.6%
-F1-Score: 0.0023
-Precision: 0.0012
-Recall: 24.4%
-ROC-AUC: 0.509
+Accuracy: 78%
+F1-Score: 0.87
+Precision: 1.00
+Recall: 0.78%
 
-LightGBM Model:
-
-Accuracy: 78.6%
-F1-Score: 0.0023
-Precision: 0.0012
-Recall: 23.3%
-ROC-AUC: 0.505
-
-XGBoost Model:
-
-Accuracy: 78.6%
-F1-Score: 0.0023
-Precision: 0.0011
-Recall: 22.5%
-ROC-AUC: 0.504
 
 - Analysis
-Class Imbalance: Given that the dataset is imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are facing challenges in accurately predicting the minority class (fraud). This is reflected in the low precision, recall, and F1-scores for the fraudulent class across all models.
+Class Imbalance: Given that the dataset is imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are accurately predicting the minority class (fraud). This is reflected in the High precision, recall, and F1-scores for the fraudulent class across all models.
 
 ---
 
@@ -210,6 +205,8 @@ Class Imbalance: Given that the dataset is imbalanced (fraudulent transactions a
 
 The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.
 Link: https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/
+
+![image](https://github.com/user-attachments/assets/5855b2d7-781b-43cb-bf5c-0ee81cd00b77)
 
 ---
 
