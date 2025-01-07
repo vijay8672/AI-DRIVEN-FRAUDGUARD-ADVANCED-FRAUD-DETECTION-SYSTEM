@@ -231,12 +231,17 @@ Here is a combined list of the process followed along with the commands used:
      docker push vijaykodam98/fraud-detect-ai
      ```
 
-This combines the steps and commands in a simplified workflow for using Docker in your project!
+     This combines the steps and commands in a simplified workflow for using Docker in project!
+
 ---
 
 ## Deployment
 
 The trained model is deployed using **Flask**, with a REST API that can accept new transaction data and return predictions (fraudulent or not). The Flask app is containerized using **Docker** to ensure portability and ease of deployment. Finally, the model is deployed on **Azure Web Services**, allowing real-time predictions from users globally.
+
+**Link**: [Fraud Detect AI App](https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/)
+
+![image](https://github.com/user-attachments/assets/e7bae4f7-dbbd-4bb9-a1dd-71c484b738ee)
 
 ---
 
