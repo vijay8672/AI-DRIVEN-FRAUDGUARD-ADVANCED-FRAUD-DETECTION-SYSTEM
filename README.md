@@ -194,9 +194,13 @@ Model evaluation involves assessing the performance of each trained model using 
 
 ---
 
-## Model Tracking with MLflow
+## Model Tracking with MLflow:
+  - Used MLflow to track the performance and lifecycle of the models.
+  - Logged each training run, hyperparameter settings, and evaluation metrics.
+  - Enabled easy comparison and reproducibility of models.
+  - Ensured transparency in the model’s training process.
+  - Allowed monitoring of how hyperparameters impacted the model's performance.
 
-**MLflow** was used for tracking the performance of the trained models and managing the model lifecycle. Each model training run, hyperparameter setting, and evaluation metric were logged into MLflow for easy comparison and reproducibility. By using MLflow, we ensured that the model’s training process was transparent, and we could track the impact of hyperparameters on performance.
 
 ---
 
