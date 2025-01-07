@@ -1,4 +1,4 @@
-# Fraud Detect AI - Fraud Detection Model Created Using Machine Learning
+# AI-DRIVEN FRAUDGUARD: ADVANCED FRAUD DETECTION SYSTEM
 
 Welcome to the **Fraud Detection Machine Learning** project! This repository showcases an end-to-end machine learning pipeline to detect fraudulent transactions in financial datasets.
 
