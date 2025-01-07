@@ -7,19 +7,21 @@ Welcome to the **Fraud Detection Machine Learning** project! This repository sho
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Problem Statement](#problem-statement)
-3. [Dataset Description](#dataset-description)
+2. [Technologies and Tools Used](#technologies-and-tools-used)
+3. [Problem Statement](#problem-statement)
+4. [Dataset Description](#dataset-description)
    - [Context](#context)
    - [Features Overview](#features-overview)
-4. [Data Ingestion](#data-ingestion)
-5. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
-6. [Feature Engineering](#feature-engineering)
-7. [Feature Selection](#feature-selection)
-8. [Model Training](#model-training)
-9. [Model Evaluation](#model-evaluation)
-10. [Model Tracking with MLflow](#model-tracking-with-mlflow)
-11. [Deployment](#deployment)
-12. [Conclusion](#conclusion)
+5. [Data Ingestion](#data-ingestion)
+6. [Exploratory Data Analysis (EDA)](#exploratory-data-analysis-eda)
+7. [Feature Engineering](#feature-engineering)
+8. [Feature Selection](#feature-selection)
+9. [Model Training](#model-training)
+10. [Model Evaluation](#model-evaluation)
+11. [Model Tracking with MLflow](#model-tracking-with-mlflow)
+12. [Docker Usage](#docker-usage)
+13. [Deployment](#deployment)
+14. [Conclusion](#conclusion)
 
 ---
 
