@@ -29,12 +29,12 @@ Fraud detection is a critical challenge faced by financial institutions, e-comme
 
 ---
 
-### **Technologies and Tools Used**
+## **Technologies and Tools Used**
 
-#### **Programming Languages**:
+**Programming Languages**:
 - **Python**: Used for machine learning model development and web application creation.
 
-#### **Libraries & Frameworks**:
+**Libraries & Frameworks**:
 - **Scikit-learn**: Utilized for building machine learning models and preprocessing data.
 - **XGBoost, LightGBM, CatBoost, AdaBoost**: Employed for training various ensemble models to improve prediction accuracy.
 - **Flask**: Used for deploying the trained model as a web application to serve predictions.
@@ -42,25 +42,24 @@ Fraud detection is a critical challenge faced by financial institutions, e-comme
 - **Matplotlib, Seaborn**: Utilized for data visualization to perform exploratory data analysis and visualize model performance.
 - **MLflow**: Integrated for model tracking, versioning, and managing the machine learning lifecycle.
 
-#### **Cloud & Storage**:
+**Cloud & Storage**:
 - **Azure Blob Storage**: Used for storing datasets and other large data files in the cloud.
 
-#### **Data Ingestion & Storage**:
+ **Data Ingestion & Storage**:
 - **Kaggle**: Leveraged for sourcing datasets, especially for training machine learning models.
 - **Azure Blob Storage**: Employed as a secure and scalable cloud-based storage solution for data.
 
-#### **Version Control**:
+**Version Control**:
 - **Git, GitHub**: Utilized for version control, collaboration, and maintaining code repositories.
 
-#### **Containerization**:
+**Containerization**:
 - **Docker**: Used for containerizing the application, ensuring consistency across environments, and simplifying deployment.
 
-#### **Web Application**:
+**Web Application**:
 - **Flask**: Framework used to create a lightweight web application for serving the machine learning model.
 
-#### **Deployment**:
+**Deployment**:
 - **Azure Web Services**: Used for hosting the web application in a scalable cloud environment.
-
 
 ---
 
