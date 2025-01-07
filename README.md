@@ -17,11 +17,12 @@ Welcome to the **Fraud Detection Machine Learning** project! This repository sho
 7. [Feature Engineering](#feature-engineering)
 8. [Feature Selection](#feature-selection)
 9. [Model Training](#model-training)
-10. [Model Evaluation](#model-evaluation)
-11. [Model Tracking with MLflow](#model-tracking-with-mlflow)
-12. [Docker Usage](#docker-usage)
-13. [Deployment](#deployment)
-14. [Conclusion](#conclusion)
+10. [HyperParameter Tuning](#hyperparameter-tuning)
+11. [Model Evaluation](#model-evaluation)
+12. [Model Tracking with MLflow](#model-tracking-with-mlflow)
+13. [Docker Usage](#docker-usage)
+14. [Deployment](#deployment)
+15. [Conclusion](#conclusion)
 
 ---
 
@@ -180,6 +181,37 @@ The **model training** process involves defining independent and dependent varia
 5. **Model Initialization**
    - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance on structured/tabular data.
 
+6. **Cross-Validation**
+   - Stratified K-Fold Cross-Validation is applied during the model training process to ensure the model's performance is robust and not overfitting to a particular subset of the training data. This technique helps in assessing the model’s generalization ability by splitting the training data into several smaller folds and training the model on different folds, then averaging the results.
+Training and Saving Models
+
+7. **Training and Saving Models**
+   - Each model is trained using the data, and after training, the models are saved for future use.
+
+### Model Performance
+- Several models were tested, and **CatBoost** was found to perform the best with an accuracy of **89%**. This model is selected as the final model for deployment.
+
+The trained models are saved in the artifacts/models/ directory for future use.
+
+---
+
+## Hyperparameter Tuning
+
+To optimize model performance, **hyperparameter tuning** was performed on the best-performing models using **RandomizedSearchCV**. These technique allow for searching the best combination of hyperparameters that give the highest model accuracy.
+
+**RandomizedSearchCV**
+   - RandomizedSearchCV was used for models like **AdaBoost** and **LightGBM**, as it searches a randomly selected subset of hyperparameters, which can be more efficient than GridSearchCV for larger datasets.
+   - RandomizedSearchCV was applied with a set of hyperparameters, such as:
+     - **CatBoost Hyperparameters**:
+     - iterations: The number of boosting iterations (trees) to train the model. More iterations usually improve performance, but too many can lead to overfitting.
+     - depth: The depth of the trees. A larger depth allows the model to capture more complex patterns, but it can also lead to overfitting if set too high.
+     - learning_rate: The step size at each iteration. A smaller learning rate improves the model's ability to learn slowly and generalize better, but it requires more iterations.
+     - l2_leaf_reg: The regularization term for leaf values to avoid overfitting.
+     - subsample: The fraction of samples used to train each tree. Lower values can help reduce overfitting by introducing randomness.
+     - cat_features: List of categorical features, as CatBoost can handle categorical data natively.
+   
+After performing **hyperparameter tuning**, the models with the best parameters were selected for final training. The model performance significantly improved with the chosen hyperparameters, leading to higher accuracy and better classification results.
+
 ---
 
 ## Model Evaluation
@@ -191,6 +223,15 @@ Model evaluation involves assessing the performance of each trained model using 
 - **Recall**: The proportion of true positives out of all actual positives. Recall is important when false negatives are costly (i.e., missing fraud cases).
 - **F1-Score**: The harmonic mean of precision and recall. This metric is particularly useful when the class distribution is imbalanced.
 - **AUC-ROC**: The area under the ROC curve, which measures the ability of the model to distinguish between positive and negative classes.
+
+Evaluation Results:
+  **CatBoost Model**: 
+   - Accuracy: 89%
+   - Precision: 0.90
+   - Recall: 0.88
+   - F1-Score: 0.89
+   - ROC-AUC: 0.92
+
 
 ---
 
