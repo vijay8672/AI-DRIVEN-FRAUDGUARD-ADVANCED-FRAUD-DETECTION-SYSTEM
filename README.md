@@ -35,7 +35,7 @@ This project utilizes a variety of tools and technologies to achieve its objecti
 * **Programming Languages**: Python
 * **Libraries/Frameworks**:
     * **Scikit-learn**: For machine learning models and preprocessing.
-    * **XGBoost, LightGBM, CatBoost, AdaBoost**: For training various models.
+    * **XGBoost, LightGBM, CatBoost, AdaBoost**: For training models.
     * **Flask**: For deploying the model as a web application.
     * **Azure Web Services**: For hosting the application.
     * **Pandas, Numpy**: For data manipulation and preprocessing.
