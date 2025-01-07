@@ -17,8 +17,9 @@ Welcome to the **Fraud Detection Machine Learning** project! This repository sho
 7. [Feature Selection](#feature-selection)
 8. [Model Training](#model-training)
 9. [Model Evaluation](#model-evaluation)
-10. [Deployment](#deployment)
-11. [Conclusion](#conclusion)
+10. [Model Tracking with MLflow](Model-Tracking-with-mlflow)
+11. [Deployment](#deployment)
+12. [Conclusion](#conclusion)
 
 ---
 
@@ -206,6 +207,16 @@ Evaluation Results:
    - Recall: 0.88
    - F1-Score: 0.89
    - ROC-AUC: 0.92
+
+---
+
+## Model Tracking with MLflow
+The integration of MLflow allows for efficient tracking and versioning of models. Below are the key aspects of MLflow integration:
+
+**Logging Metrics**: MLflow logs key performance metrics such as accuracy, precision, recall, and F1-score for each model run.
+**Logging Parameters**: Hyperparameters (e.g., learning rate, number of iterations, depth) of each model are logged for comparison across different runs.
+**Logging Models**: The trained model is logged as an artifact in MLflow, allowing easy access for future deployment or analysis.
+**Experiment Tracking**: MLflow provides a centralized view of all model training runs, enabling better experimentation, comparisons, and model selection.
 
 ---
 
