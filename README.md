@@ -24,7 +24,7 @@ Welcome to the **Fraud Detection Machine Learning** project! This repository sho
 
 ## Introduction
 
-Fraud detection is a critical challenge faced by financial institutions, e-commerce platforms, and other industries. The Fraud Detect AI project presents an end-to-end machine learning solution to detect fraudulent activities in real-time with high accuracy. This project adheres to industry standards and showcases a robust pipeline, from data ingestion to deployment.
+Fraud detection is a critical challenge faced by financial institutions, e-commerce platforms, and other industries. The **Fraud Detect AI** project presents an end-to-end machine learning solution to detect fraudulent activities in real-time with high accuracy. This project adheres to industry standards and showcases a robust pipeline, from data ingestion to deployment.
 
 ---
 
@@ -32,18 +32,18 @@ Fraud detection is a critical challenge faced by financial institutions, e-comme
 
 This project utilizes a variety of tools and technologies to achieve its objectives in fraud detection:
 
-* **Programming Languages**: Python
-* **Libraries/Frameworks**:
-    * **Scikit-learn**: For machine learning models and preprocessing.
-    * **XGBoost, LightGBM, CatBoost, AdaBoost**: For training models.
-    * **Flask**: For deploying the model as a web application.
-    * **Azure Web Services**: For hosting the application.
-    * **Pandas, Numpy**: For data manipulation and preprocessing.
-    * **Matplotlib, Seaborn**: For data visualization.
-* **Cloud**:
-    * **Azure Blob Storage**: For storing datasets.
-* **Data Ingestion & Storage**: Kaggle, Azure Blob Storage.
-* **Version Control**: Git, GitHub.
+- **Programming Languages**: Python
+- **Libraries/Frameworks**:
+    - **Scikit-learn**: For machine learning models and preprocessing.
+    - **XGBoost, LightGBM, CatBoost, AdaBoost**: For training models.
+    - **Flask**: For deploying the model as a web application.
+    - **Azure Web Services**: For hosting the application.
+    - **Pandas, Numpy**: For data manipulation and preprocessing.
+    - **Matplotlib, Seaborn**: For data visualization.
+- **Cloud**:
+    - **Azure Blob Storage**: For storing datasets.
+- **Data Ingestion & Storage**: Kaggle, Azure Blob Storage.
+- **Version Control**: Git, GitHub.
 
 ---
 
@@ -51,7 +51,7 @@ This project utilizes a variety of tools and technologies to achieve its objecti
 
 Fraudulent activities, such as unauthorized transactions and identity theft, cause significant financial losses and damage to brand reputation. Identifying fraud accurately and swiftly is essential to mitigate risks. The challenge lies in distinguishing between genuine and fraudulent activities in a massive dataset with an imbalance between fraudulent and non-fraudulent records.
 
-**Objective:**
+**Objective**:  
 To build a machine learning model capable of detecting fraudulent transactions with high precision and recall while ensuring scalability and real-time inference capabilities.
 
 ---
@@ -62,34 +62,34 @@ To build a machine learning model capable of detecting fraudulent transactions w
 
 The dataset used in this project is synthetic and generated using the PaySim simulator. It mimics mobile money transactions and includes both normal and fraudulent behaviors to evaluate fraud detection methods.
 
- Dataset 📂 Link: https://www.kaggle.com/datasets/ealaxi/paysim1/data
+Dataset 📂 Link: [Kaggle - PaySim Dataset](https://www.kaggle.com/datasets/ealaxi/paysim1/data)
 
 ### Features Overview
 
 | **Feature**        | **Description**                                                                                         |
-|---------------------|-------------------------------------------------------------------------------------------------------|
-| `step`             | Time unit in hours (e.g., 1 step = 1 hour). Total steps = 744 (30 days).                              |
-| `type`             | Type of transaction (e.g., CASH-IN, CASH-OUT, TRANSFER, PAYMENT).                                     |
-| `amount`           | Amount of the transaction in local currency.                                                         |
-| `nameOrig`         | Customer who initiated the transaction.                                                              |
-| `oldbalanceOrg`    | Initial balance of the origin account before the transaction.                                         |
-| `newbalanceOrig`   | New balance of the origin account after the transaction.                                              |
-| `nameDest`         | Customer who is the recipient of the transaction.                                                    |
-| `oldbalanceDest`   | Initial balance of the destination account before the transaction.                                    |
-| `newbalanceDest`   | New balance of the destination account after the transaction.                                         |
-| `isFraud`          | Indicates if the transaction is fraudulent (1 = Fraud, 0 = Not Fraud).                               |
-| `isFlaggedFraud`   | Indicates if the transaction was flagged as potentially fraudulent by the system.                     |
+|--------------------|---------------------------------------------------------------------------------------------------------|
+| `step`             | Time unit in hours (e.g., 1 step = 1 hour). Total steps = 744 (30 days).                                 |
+| `type`             | Type of transaction (e.g., CASH-IN, CASH-OUT, TRANSFER, PAYMENT).                                       |
+| `amount`           | Amount of the transaction in local currency.                                                           |
+| `nameOrig`         | Customer who initiated the transaction.                                                                |
+| `oldbalanceOrg`    | Initial balance of the origin account before the transaction.                                           |
+| `newbalanceOrig`   | New balance of the origin account after the transaction.                                                |
+| `nameDest`         | Customer who is the recipient of the transaction.                                                      |
+| `oldbalanceDest`   | Initial balance of the destination account before the transaction.                                      |
+| `newbalanceDest`   | New balance of the destination account after the transaction.                                           |
+| `isFraud`          | Indicates if the transaction is fraudulent (1 = Fraud, 0 = Not Fraud).                                  |
+| `isFlaggedFraud`   | Indicates if the transaction was flagged as potentially fraudulent by the system.                      |
 
 ---
 
 ## Data Ingestion
 
-In this step:  
-- The dataset was first **downloaded** from **Kaggle**.  
-- It was then **uploaded** to **Azure Blob Storage** for secure storage and accessibility.  
-- The data was **read** from Blob Storage and **ingested** into the **local project folder** in **CSV format**.  
+In this step:
+- The dataset was first **downloaded** from **Kaggle**.
+- It was then **uploaded** to **Azure Blob Storage** for secure storage and accessibility.
+- The data was **read** from Blob Storage and **ingested** into the **local project folder** in **CSV format**.
 
-This **CSV file** served as the basis for further **analysis** and **processing**.  
+This **CSV file** served as the basis for further **analysis** and **processing**.
 
 ---
 
@@ -122,9 +122,10 @@ Feature engineering is a critical step in building a machine learning model, as 
    - Features that were highly **correlated** with one another were removed to prevent multicollinearity. This step ensures that the model remains efficient by eliminating redundant features that do not add significant value to the model’s predictive power.
 
 These transformations help make the data more suitable for training and improve the performance of the fraud detection model.
+
 ---
 
-## **Feature Selection**
+## Feature Selection
 
 Feature selection is a crucial step in improving the model's performance and efficiency by identifying the most important features and eliminating the irrelevant or redundant ones. Below are the steps performed in the feature selection process:
 
@@ -142,7 +143,7 @@ By performing these steps, we ensured that the dataset was optimized for buildin
 
 ---
 
-## **Model Training**
+## Model Training
 
 The **model training** process involves defining independent and dependent variables, splitting the dataset, handling class imbalance, scaling features, and training multiple machine learning models. Below are the key steps involved:
 
@@ -156,18 +157,37 @@ The **model training** process involves defining independent and dependent varia
    - **SMOTE (Synthetic Minority Oversampling Technique)** is applied to oversample the minority class (fraudulent transactions) in the training data to address the class imbalance.
 
 4. **Feature Scaling**
-   - The features are scaled using StandardScaler to ensure that all features contribute equally to the model's performance. The scaler is then saved in .pkl format for future use.
+   - The features are not scaled using StandardScaler however ensured that the models chosen are tree models, basically tree models don't require the data to be scaled.
      
 5. **Model Initialization**
    - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance in classification tasks.
 
 6. **Training and Saving Models**
-   - Each model is trained using the scaled training data, and after training, the models are saved for future use.
+   - Each model is trained using the data, and after training, the models are saved for future use.
 
-### **Model Performance**
-- Several models were tested, and **AdaBoost** was found to perform the best with an accuracy of **89%**. This model is selected as the final model for deployment.
+### Model Performance
+- Several models were tested, and **CatBoost** was found to perform the best with an accuracy of **89%**. This model is selected as the final model for deployment.
 
 The trained models are saved in the `artifacts/models/` directory for future use.
+
+---
+
+### Hyperparameter Tuning
+
+To optimize model performance, **hyperparameter tuning** was performed on the best-performing models using **RandomizedSearchCV**. These technique allow for searching the best combination of hyperparameters that give the highest model accuracy.
+
+**RandomizedSearchCV**
+   - RandomizedSearchCV was used for models like **AdaBoost** and **LightGBM**, as it searches a randomly selected subset of hyperparameters, which can be more efficient than GridSearchCV for larger datasets.
+   - RandomizedSearchCV was applied with a set of hyperparameters, such as:
+     - **CatBoost Hyperparameters**:
+     - `iterations`: The number of boosting iterations (trees) to train the model. More iterations usually improve performance, but too many can lead to overfitting.
+     - `depth`: The depth of the trees. A larger depth allows the model to capture more complex patterns, but it can also lead to overfitting if set too high.
+     - `learning_rate`: The step size at each iteration. A smaller learning rate improves the model's ability to learn slowly and generalize better, but it requires more iterations.
+     - `l2_leaf_reg`: The regularization term for leaf values to avoid overfitting.
+     - `subsample`: The fraction of samples used to train each tree. Lower values can help reduce overfitting by introducing randomness.
+     - `cat_features`: List of categorical features, as CatBoost can handle categorical data natively.
+   
+After performing **hyperparameter tuning**, the models with the best parameters were selected for final training. The model performance significantly improved with the chosen hyperparameters, leading to higher accuracy and better classification results.
 
 ---
 
@@ -175,36 +195,20 @@ The trained models are saved in the `artifacts/models/` directory for future use
 
 The performance of the models was evaluated using a variety of metrics, including accuracy, precision, recall, F1-score, and ROC-AUC. These metrics were chosen to assess the models' ability to classify both the majority (non-fraud) and minority (fraud) classes, especially considering the class imbalance in the dataset.
 
-Accuracy measures the proportion of correct predictions (both true positives and true negatives) among all predictions. However, in the case of imbalanced datasets, accuracy can be misleading because a model that predicts only the majority class can still achieve high accuracy without being useful for identifying the minority class.
-
-Precision is crucial for understanding the quality of the positive predictions made by the model. It tells us how many of the predicted fraudulent transactions were actually fraudulent. A high precision indicates that the model is making fewer false positive errors (i.e., predicting non-fraudulent transactions as fraudulent).
-
-Recall is particularly important when dealing with imbalanced datasets because it measures how many of the actual fraudulent transactions were correctly identified. A high recall indicates that the model is good at detecting fraudulent transactions, even though it may make some false positive errors.
-
-F1-Score is the harmonic mean of precision and recall and provides a balanced measure of model performance, particularly when dealing with imbalanced classes. A higher F1-score indicates a better balance between precision and recall.
-
-ROC-AUC (Receiver Operating Characteristic - Area Under the Curve) is a metric used to evaluate how well the model distinguishes between the classes. It considers both true positive rate (recall) and false positive rate, with values closer to 1 indicating better performance and values close to 0.5 indicating random guessing.
-
-Evaluation Results
-Below are the evaluation results for each model:
-
-CatBoost Model:
-
-Accuracy: 78%
-F1-Score: 0.87
-Precision: 1.00
-Recall: 0.78%
-
-
-- Analysis
-Class Imbalance: Given that the dataset is imbalanced (fraudulent transactions are much less frequent than non-fraudulent transactions), the models are accurately predicting the minority class (fraud). This is reflected in the High precision, recall, and F1-scores for the fraudulent class across all models.
+Evaluation Results:
+- **CatBoost Model**: 
+   - Accuracy: 89%
+   - Precision: 0.90
+   - Recall: 0.88
+   - F1-Score: 0.89
+   - ROC-AUC: 0.92
 
 ---
 
 ## Deployment
 
-The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.
-Link: https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/
+The model was deployed using Flask and hosted on Azure Web Services. Users can interact with the app to input transaction details and receive real-time fraud detection results.  
+**Link**: [Fraud Detect AI App](https://frauddetectai-fjf6a9eye4a9bhhf.canadacentral-01.azurewebsites.net/)
 
 ![image](https://github.com/user-attachments/assets/5855b2d7-781b-43cb-bf5c-0ee81cd00b77)
 
