@@ -29,23 +29,38 @@ Fraud detection is a critical challenge faced by financial institutions, e-comme
 
 ---
 
-## Tools and Technologies
+### **Technologies and Tools Used**
 
-This project utilizes a variety of tools and technologies to achieve its objectives in fraud detection:
+#### **Programming Languages**:
+- **Python**: Used for machine learning model development and web application creation.
 
-- **Programming Languages**: Python
-- **Libraries/Frameworks**:
-    - **Scikit-learn**: For machine learning models and preprocessing.
-    - **XGBoost, LightGBM, CatBoost, AdaBoost**: For training models.
-    - **Flask**: For deploying the model as a web application.
-    - **Azure Web Services**: For hosting the application.
-    - **Pandas, Numpy**: For data manipulation and preprocessing.
-    - **Matplotlib, Seaborn**: For data visualization.
-- **Cloud**:
-    - **Azure Blob Storage**: For storing datasets.
-- **Data Ingestion & Storage**: Kaggle, Azure Blob Storage.
-- **Version Control**: Git, GitHub.
-- **Containerization**: Docker (to package the application and deploy it on Azure Web Apps).
+#### **Libraries & Frameworks**:
+- **Scikit-learn**: Utilized for building machine learning models and preprocessing data.
+- **XGBoost, LightGBM, CatBoost, AdaBoost**: Employed for training various ensemble models to improve prediction accuracy.
+- **Flask**: Used for deploying the trained model as a web application to serve predictions.
+- **Pandas, Numpy**: Applied for efficient data manipulation and preprocessing tasks.
+- **Matplotlib, Seaborn**: Utilized for data visualization to perform exploratory data analysis and visualize model performance.
+- **MLflow**: Integrated for model tracking, versioning, and managing the machine learning lifecycle.
+
+#### **Cloud & Storage**:
+- **Azure Blob Storage**: Used for storing datasets and other large data files in the cloud.
+
+#### **Data Ingestion & Storage**:
+- **Kaggle**: Leveraged for sourcing datasets, especially for training machine learning models.
+- **Azure Blob Storage**: Employed as a secure and scalable cloud-based storage solution for data.
+
+#### **Version Control**:
+- **Git, GitHub**: Utilized for version control, collaboration, and maintaining code repositories.
+
+#### **Containerization**:
+- **Docker**: Used for containerizing the application, ensuring consistency across environments, and simplifying deployment.
+
+#### **Web Application**:
+- **Flask**: Framework used to create a lightweight web application for serving the machine learning model.
+
+#### **Deployment**:
+- **Azure Web Services**: Used for hosting the web application in a scalable cloud environment.
+
 
 ---
 
