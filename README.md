@@ -157,12 +157,16 @@ The **model training** process involves defining independent and dependent varia
    - **SMOTE (Synthetic Minority Oversampling Technique)** is applied to oversample the minority class (fraudulent transactions) in the training data to address the class imbalance.
 
 4. **Feature Scaling**
-   - The features are not scaled using StandardScaler however ensured that the models chosen are tree models, basically tree models don't require the data to be scaled.
+   - Feature scaling was not performed in this project because we used boosting models such as XGBoost, LightGBM, CatBoost, and AdaBoost. These models are based on decision trees, which are inherently insensitive to the scale of the features. Decision trees work by splitting data based on feature values and do not rely on the distance between data points, making feature scaling unnecessary for tree-based models.
      
 5. **Model Initialization**
    - Multiple machine learning models are initialized, including **XGBoost**, **LightGBM**, **CatBoost**, and **AdaBoost**. These models are selected for their ability to handle imbalanced datasets and their strong performance in classification tasks.
+  
+6. **Cross-Validation**
+   - Stratified K-Fold Cross-Validation is applied during the model training process to ensure the model's performance is robust and not overfitting to a particular subset of the training data. This technique helps in assessing the model’s generalization ability by splitting the training data into several smaller folds and training the model on different folds, then averaging the results.
+Training and Saving Models
 
-6. **Training and Saving Models**
+7. **Training and Saving Models**
    - Each model is trained using the data, and after training, the models are saved for future use.
 
 ### Model Performance
