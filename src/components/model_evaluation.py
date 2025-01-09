@@ -13,9 +13,9 @@ from sklearn.metrics import (
 )
 from src.logging.logger import logger  # Assuming logger is configured in src/logging/logger.py
 from src.utils.model_utils import load_model  # Assuming load_model function exists for loading saved models
-from sklearn.model_selection import train_test_split
-from imblearn.over_sampling import SMOTE  # Ensure SMOTE is imported
-from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split, StratifiedKFold
+from imblearn.combine import SMOTETomek
+
 
 def Model_Evaluation():
     # Log message for the start of model evaluation
@@ -43,19 +43,9 @@ def Model_Evaluation():
         logger.info("Splitting dataset into training and test sets with stratified sampling...")
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
-        # Apply SMOTE for oversampling the minority class in the training data
-        logger.info("Applying SMOTE to handle class imbalance...")
-        smote = SMOTE(random_state=42)
-        X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
-
-        # Scale the features using RobustScaler
-        logger.info("Scaling features using RobustScaler...")
-        scaler = StandardScaler()
-        X_train_scaled = scaler.fit_transform(X_train_resampled)
-        X_test_scaled = scaler.transform(X_test)  # Scale test set using the same scaler
 
         # Define the directory where the models are saved
-        model_dir = "artifacts/models/"  # Update with your model directory
+        model_dir = "artifacts/models2/"  # Update with your model directory
 
         # List all model files in the model directory (assuming .pkl extension for model files)
         pickle_file = [file for file in os.listdir(model_dir) if file.endswith('.pkl')]
@@ -73,8 +63,8 @@ def Model_Evaluation():
 
             # Make predictions
             logger.info(f"Making predictions with {model_name}...")
-            y_pred = model.predict(X_test_scaled)
-            y_proba = model.predict_proba(X_test_scaled)[:, 1] if hasattr(model, 'predict_proba') else None
+            y_pred = model.predict(X_test)
+            y_proba = model.predict_proba(X_test)[:, 1] if hasattr(model, 'predict_proba') else None
 
             # Evaluate performance
             accuracy = accuracy_score(y_test, y_pred)
@@ -109,8 +99,8 @@ def Model_Evaluation():
             logger.info(f"Classification Report for model {model_name}:\n{cr}")
 
             # Save confusion matrix and classification report to text files
-            cm_file = f"confusion_matrix_{model_name}.txt"
-            cr_file = f"classification_report_{model_name}.txt"
+            cm_file = f"{model_name}_confusion_matrix.txt"
+            cr_file = f"{model_name}_classification_report.txt"
 
             with open(cm_file, 'w') as f:
                 f.write(str(cm))

@@ -8,8 +8,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from xgboost import XGBClassifier
 import lightgbm as lgb
 from catboost import CatBoostClassifier
-from sklearn.preprocessing import StandardScaler
-from imblearn.over_sampling import SMOTE
+from imblearn.combine import SMOTETomek
 from src.logging.logger import logger  # Assuming logger is configured in src/logging/logger.py
 from src.utils.model_utils import save_model  # Import your existing save_model function
 from src.utils.model_utils import save_artifact  # Import your existing save_features function
@@ -33,44 +32,36 @@ def Model_Training():
     logger.info("Splitting dataset into training and test sets with stratified sampling...")
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
 
-    # Apply SMOTE for oversampling the minority class in the training data
-    logger.info("Applying SMOTE to handle class imbalance...")
-    smote = SMOTE(random_state=42)
-    X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
+    # Apply SMOTE + Tomek Links for resampling
+    logger.info("Applying SMOTE + Tomek Links for resampling...")
+    smote_tomek = SMOTETomek(random_state=42)
+    X_train_resampled, y_train_resampled = smote_tomek.fit_resample(X_train, y_train)
 
-    # Scale the features using RobustScaler
-    logger.info("Scaling features using RobustScaler...")
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train_resampled)
-    X_test_scaled = scaler.transform(X_test)  # Scale test set using the same scaler
-
-    # Save the scaler as an artifact
-    save_artifact(scaler, 'artifacts/model_artifacts/scaler.pkl')
-
-    # Initialize models
-    logger.info("Initializing base models...")
+    # Use class weights in models
     models = [
-        (XGBClassifier(eval_metric='mlogloss', max_depth=4, n_estimators=100, learning_rate=0.2), "xgboost_model"),
-        (lgb.LGBMClassifier(max_depth=4, n_estimators=100, learning_rate=0.2, force_col_wise=True), "lightgbm_model"), 
-        (CatBoostClassifier(learning_rate=0.2, iterations=100, depth=4, verbose=0), "catboost_model"),
-        (AdaBoostClassifier(n_estimators=100, learning_rate=1.0, random_state=42), "adaboost_model") 
+        (XGBClassifier(eval_metric='mlogloss', max_depth=4, n_estimators=100, learning_rate=0.2, scale_pos_weight=(y_train.value_counts()[0] / y_train.value_counts()[1])), "xgboost_model"),
+        (lgb.LGBMClassifier(max_depth=4, n_estimators=100, learning_rate=0.2, class_weight='balanced'), "lightgbm_model"),
+        (CatBoostClassifier(learning_rate=0.2, iterations=100, depth=4, verbose=0, auto_class_weights='Balanced'), "catboost_model")
     ]
 
-    # Train and save each individual model
-    logger.info("Training and saving individual models...")
+    # Initialize StratifiedKFold for cross-validation
+    strat_kfold = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
+    # Use ROC-AUC or F1 score for cross-validation
+    logger.info("Performing cross-validation with ROC-AUC scoring...")
     for model, model_name in models:
-        logger.info(f"Training {model_name}...")
+        model_cv_scores = cross_val_score(model, X_train_resampled, y_train_resampled, cv=strat_kfold, scoring='roc_auc')
+        logger.info(f"{model_name} ROC-AUC scores: {model_cv_scores}")
+        logger.info(f"Average ROC-AUC for {model_name}: {model_cv_scores.mean()}")
 
-        # Train the model
-        model.fit(X_train_scaled, y_train_resampled)
-        
-        # Save the trained model
-        save_model(model, model_name, save_dir="artifacts/models/")
+        # Train the model on the entire training set
+        model.fit(X_train_resampled, y_train_resampled)
 
-        logger.info(f"Saved {model_name}.")
+        # Save the trained model (if required)
+        save_model(model, model_name, save_dir="artifacts/models2/")
 
-    logger.info("Model training completed successfully.")
+        logger.info("model training completed and saved.")
+
 
 if __name__ == "__main__":
     Model_Training()

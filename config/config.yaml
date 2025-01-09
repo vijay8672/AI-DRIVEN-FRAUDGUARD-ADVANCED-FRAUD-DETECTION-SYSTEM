@@ -21,9 +21,10 @@ model_parameters:
     iterations: 50
     depth: 4
     verbose=0
-  logistic_regression:
-    solver: 'saga'
-    max_iter: 50
+  Adaboost:
+    n_estimators:100
+    learning_rate:1.0
+    random_state:42
 
 # Cross-validation settings
 cv_params:
