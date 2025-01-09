@@ -94,10 +94,10 @@ class FeatureEngineering:
     def execute_pipeline(self, data: pd.DataFrame) -> pd.DataFrame:
         logger.info("Starting feature engineering pipeline...")
 
-        data = self.handle_missing_values(data)
-        data = self.remove_duplicate_values(data)
-        data = self.encode_categorical_features(data)
-        data = self.remove_highly_correlated_features(data)
+        data1 = self.handle_missing_values(data)
+        data2 = self.remove_duplicate_values(data1)
+        data3 = self.encode_categorical_features(data2)
+        data4 = self.remove_highly_correlated_features(data3)
 
         logger.info("Feature engineering pipeline completed.")
         return data.copy()
